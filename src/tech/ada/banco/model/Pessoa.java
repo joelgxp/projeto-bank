@@ -1,4 +1,4 @@
-package tech.ada.banco;
+package tech.ada.banco.model;
 
 import java.time.LocalDate;
 
@@ -12,7 +12,7 @@ public class Pessoa {
     public Pessoa(String nome, String cpf, LocalDate dataNascimento) {
 
             this.dataNascimento = dataNascimento;
-            this.cpf = cpf;
+            setCpf(cpf);
             this.nome = nome;
     }
 
@@ -55,6 +55,9 @@ public class Pessoa {
     }
 
     public void setCpf(String cpf) {
+        if(cpf.length()!=11) {
+            throw new RuntimeException("Tamanho do CPF invalido.");
+        }
         this.cpf = cpf;
     }
 
