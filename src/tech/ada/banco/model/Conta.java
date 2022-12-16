@@ -1,22 +1,32 @@
 package tech.ada.banco.model;
 
+import tech.ada.banco.exception.SaldoInsuficienteException;
+
 import java.math.BigDecimal;
+
+
 
 public class Conta {
 
     private static int contadorDeContas = 0;
-    private ModalidadeConta tipo;
-    private BigDecimal saldo;
+    private static Conta[] contas = new Conta[100];
+    private final ModalidadeConta tipo;
+    protected BigDecimal saldo;
     private int numeroConta;
-    private String agencia;
-    private Pessoa titutar;
+    private final String agencia;
+    private final Pessoa titular;
 
-    public Conta(ModalidadeConta tipo, Pessoa titutar) {
+    public Conta(ModalidadeConta tipo, Pessoa titular) {
         this.tipo = tipo;
-        this.titutar = titutar;
+        this.titular = titular;
         agencia = "0001";
         saldo = BigDecimal.ZERO;
         escolheNumeroConta();
+        contas[contadorDeContas - 1] = this;
+    }
+
+    public static Conta obtemContaPeloNumero(int numeroConta) {
+        return Conta.contas[numeroConta - 1];
     }
 
     private void escolheNumeroConta() {
@@ -46,11 +56,18 @@ public class Conta {
         }
 
         if (valor.compareTo(saldo) > 0) {
-            throw new RuntimeException("Limite acima do saldo disponível!");
+            throw new SaldoInsuficienteException();
         } else {
             saldo = saldo.subtract(valor);
         }
     }
+
+    public void saldo(BigDecimal valor) {
+
+            valor = getSaldo();
+
+    }
+
 
     public int getNumeroConta() {
         return numeroConta;
@@ -60,9 +77,8 @@ public class Conta {
         return agencia;
     }
 
-
-    public Pessoa getTitutar() {
-        return titutar;
+    public Pessoa getTitular() {
+        return titular;
     }
 
 }

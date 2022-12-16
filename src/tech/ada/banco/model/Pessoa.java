@@ -4,38 +4,27 @@ import java.time.LocalDate;
 
 public class Pessoa {
 
-    String nome;
     private LocalDate dataNascimento;
-    String cpf;
-    String telefone;
+    private Documento documento;
+    private String telefone;
+    private String nome;
 
-    public Pessoa(String nome, String cpf, LocalDate dataNascimento) {
-
-            this.dataNascimento = dataNascimento;
-            setCpf(cpf);
-            this.nome = nome;
-    }
-
-    public Pessoa(String nome, String cpf, String dataNascimento) {
-        this(nome, cpf, LocalDate.parse(dataNascimento));
-    }
-
-    @Override
-    public String toString() {
-        return "Pessoa{" +
-                "Sr" + nome + '\'' +
-                ", vc nasceu na data" + dataNascimento + '\'' +
-                ", portador do CPF" + cpf + '\'' +
-                ", telefone='" + telefone + '\'' +
-                '}';
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
+    public Pessoa(String nome) {
         this.nome = nome;
+    }
+
+    public Pessoa(String nome, Documento documento, LocalDate dataNascimento) {
+        setDataNascimento(dataNascimento);
+        this.documento = documento;
+        this.nome = nome;
+    }
+
+    public Pessoa(String nome, Documento documento, String dataNascimento) {
+        this(nome, documento, LocalDate.parse(dataNascimento));
+    }
+
+    public String toString() {
+        return "Nome: " + nome + " telefone: " + telefone + " e documento: " + documento.getValor();
     }
 
     public LocalDate getDataNascimento() {
@@ -50,15 +39,12 @@ public class Pessoa {
         }
     }
 
-    public String getCpf() {
-        return cpf;
+    public Documento getDocumento() {
+        return documento;
     }
 
-    public void setCpf(String cpf) {
-        if(cpf.length()!=11) {
-            throw new RuntimeException("Tamanho do CPF invalido.");
-        }
-        this.cpf = cpf;
+    public void setDocumento(Documento documento) {
+        this.documento = documento;
     }
 
     public String getTelefone() {
@@ -67,5 +53,13 @@ public class Pessoa {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }
